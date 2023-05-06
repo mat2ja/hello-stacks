@@ -4,6 +4,15 @@ dependencies:
   '@stacks/connect':
     specifier: ^7.3.1
     version: 7.3.1
+  '@stacks/network':
+    specifier: ^6.5.2
+    version: 6.5.2
+  '@stacks/transactions':
+    specifier: ^6.5.2
+    version: 6.5.2
+  ofetch:
+    specifier: ^1.0.1
+    version: 1.0.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -1040,7 +1049,7 @@ packages:
     resolution: {integrity: sha512-rpwfAcS/CMqo0oCqDf3r9eeLgScRE3l/xHDCXhM3UyrfvIn7PrLq63uHh7yYbv8NzaZn5MVsVhIRpQ+5GZ5HyA==}
     engines: {node: '>=8'}
     dependencies:
-      '@noble/hashes': 1.1.5
+      '@noble/hashes': 1.3.0
       base-x: 4.0.0
     dev: false
 
@@ -1166,6 +1175,10 @@ packages:
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: true
+
+  /destr@1.2.2:
+    resolution: {integrity: sha512-lrbCJwD9saUQrqUfXvl6qoM+QN3W7tLV5pAOs+OqOmopCCz/JkE05MHedJR1xfk4IAnZuJXPVuN5+7jNA2ZCiA==}
+    dev: false
 
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
@@ -1748,6 +1761,10 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
+  /node-fetch-native@1.1.0:
+    resolution: {integrity: sha512-nl5goFCig93JZ9FIV8GHT9xpNqXbxQUzkOmKIMKmncsBH9jhg7qKex8hirpymkBFmNQ114chEEG5lS4wgK2I+Q==}
+    dev: false
+
   /node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -1783,6 +1800,14 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
     dev: true
+
+  /ofetch@1.0.1:
+    resolution: {integrity: sha512-icBz2JYfEpt+wZz1FRoGcrMigjNKjzvufE26m9+yUiacRQRHwnNlGRPiDnW4op7WX/MR6aniwS8xw8jyVelF2g==}
+    dependencies:
+      destr: 1.2.2
+      node-fetch-native: 1.1.0
+      ufo: 1.1.2
+    dev: false
 
   /once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -2226,6 +2251,10 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
     dev: true
+
+  /ufo@1.1.2:
+    resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==}
+    dev: false
 
   /update-browserslist-db@1.0.11(browserslist@4.21.5):
     resolution: {integrity: sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==}

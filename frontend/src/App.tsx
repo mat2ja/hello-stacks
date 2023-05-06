@@ -1,19 +1,26 @@
-import { ChangeEvent, useEffect, useState } from 'react'
 import {
 	AppConfig,
-	UserSession,
-	AuthDetails,
-	showConnect,
 	UserData,
+	UserSession,
+	openContractCall,
+	showConnect,
 } from '@stacks/connect'
+import { StacksMocknet } from '@stacks/network'
+import { stringUtf8CV } from '@stacks/transactions'
+import { ChangeEvent, PointerEvent, useEffect, useState } from 'react'
+import { ofetch } from 'ofetch'
 
 function App() {
 	const appConfig = new AppConfig(['store_write'])
 	const userSession = new UserSession({ appConfig })
 	const appDetails = {
 		name: 'Hello Stacks',
-		icon: 'https://freesvg.org/img/1541103084.png',
-	}
+		icon: 'https://avatars.githubusercontent.com/u/46557266?v=4',
+	} as const
+	const contract = {
+		address: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+		name: 'hello-stacks',
+	} as const
 
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
 	const [message, setMessage] = useState('')
@@ -34,12 +41,6 @@ function App() {
 		}
 	}, [])
 
-	useEffect(() => {
-		if (userData) {
-			console.log('userData', userData)
-		}
-	}, [userData])
-
 	const connectWallet = () => {
 		showConnect({
 			appDetails,
@@ -57,16 +58,77 @@ function App() {
 		setMessage(e.target.value)
 	}
 
-	const submitMessage = () => {
-		// submit transaction
+	const submitMessage = async (e: PointerEvent<HTMLButtonElement>) => {
+		e.preventDefault()
+
+		const network = new StacksMocknet()
+
+		const options = {
+			contractAddress: contract.address,
+			contractName: contract.name,
+			functionName: 'write-message',
+			functionArgs: [stringUtf8CV(message)],
+			network,
+			appDetails,
+			onFinish: ({ txId }: { txId: string }) => {
+				console.log('tx id:', txId)
+				setMessage('')
+				setTransactionId(txId)
+			},
+		}
+
+		await openContractCall(options)
 	}
 
 	const handleTransactionChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setTransactionId(e.target.value)
 	}
 
-	const retrieveMessage = () => {
-		// submit transaction
+	const retrieveMessage = async () => {
+		type TxEvent = {
+			limit: number
+			offset: number
+			events: {
+				event_index: number
+				event_type: string
+				tx_id: string
+				contract_log: {
+					contract_id: string
+					topic: string
+					value: {
+						hex: string
+						repr: string
+					}
+				}
+			}[]
+		}
+
+		try {
+			const retrievedMessage = await ofetch<TxEvent>(
+				'http://localhost:3999/extended/v1/tx/events',
+				{
+					query: {
+						tx_id: transactionId,
+					},
+				}
+			)
+
+			const message = retrievedMessage.events[0].contract_log.value.repr
+
+			const match = message.match(/"([^"]*)"/)
+
+			if (match) {
+				const parsedMessage = match.at(1) as string
+				setCurrentMessage(parsedMessage)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const clearCurrentMessage = () => {
+		setTransactionId('')
+		setCurrentMessage('')
 	}
 
 	return (
@@ -120,7 +182,15 @@ function App() {
 			)}
 
 			{currentMessage.length > 0 ? (
-				<p className="text-2xl">{currentMessage}</p>
+				<div className="flex flex-col gap-2 justify-center items-center">
+					<p className="text-2xl">{currentMessage}</p>
+					<button
+						className="px-2 py-1 bg-indigo-200 rounded text-indigo-900"
+						onClick={clearCurrentMessage}
+					>
+						Clear
+					</button>
+				</div>
 			) : (
 				''
 			)}
