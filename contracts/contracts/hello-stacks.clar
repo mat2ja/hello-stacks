@@ -2,5 +2,5 @@
 	(begin 
 		(print message)
 		(ok "Message printed")
-  	)
+	)
 )
