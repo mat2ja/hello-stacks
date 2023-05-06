@@ -2,7 +2,7 @@
 [project]
 name = "contracts"
 description = ""
-authors = []
+authors = ["Matija Osrečki"]
 telemetry = true
 cache_dir = "./.cache"
 
